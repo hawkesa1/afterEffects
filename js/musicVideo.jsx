@@ -1,7 +1,7 @@
 ﻿{
     #include "json2.js" // jshint ignore:line    
     #include "lineEffect.jsx" // jshint ignore:line    
-    
+    //
     app.beginUndoGroup("Create Music Video");
   
     var audioFile="H:\\Development\\afterEffects\\LyricRecorder\\audio\\audio.mp3";
