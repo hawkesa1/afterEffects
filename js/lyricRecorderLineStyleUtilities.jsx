@@ -21,7 +21,7 @@
                         textProperty = textLayer.property("Source Text");
                         textPropertyValue = textProperty.value;
                         textPropertyValue.resetCharStyle();
-                        textPropertyValue.fontSize = 50;
+                        textPropertyValue.fontSize = 100;
                         textPropertyValue.fillColor = [1, 1, 1];
                         textPropertyValue.font = "SavingsBond";
                         textProperty.setValue(textPropertyValue);          
