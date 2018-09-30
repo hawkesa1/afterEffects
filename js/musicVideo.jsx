@@ -27,8 +27,12 @@
             var currentProject   = app.newProject();
             //Import the music file 
             var mp3Footage=currentProject.importFile(new ImportOptions(File(audioFile)));
+            
+          
+
             // Creating comp
-            var compSettings     = cs = [1280, 720, 1, mp3Footage.duration, 24];
+            //var compSettings     = cs = [1920, 1080, 1, mp3Footage.duration, 60];
+            var compSettings     = cs = [1920, 1080, 1, 15, 30];
             var compName  = "MusicVideo"
             var currentComp      = currentProject.items.addComp(compName, cs[0], cs[1], cs[2], cs[3], cs[4]); 
           
@@ -36,23 +40,29 @@
             currentComp.openInViewer();
             //Add the music file to the composition
             currentComp.layers.add(mp3Footage);  
-            var currentCamera =   currentComp.layers.addCamera("alexCamera1",[currentComp.width/2,currentComp.height/2]);
-            var currentLight = currentComp.layers.addLight("alexLight1",[currentComp.width/2,currentComp.height/2]);
-            currentLight.castsShadows.setValue(1);
+            var camera =   currentComp.layers.addCamera("alexCamera1",[currentComp.width/2,currentComp.height/2]);
+            var light = currentComp.layers.addLight("alexLight1",[currentComp.width/2,currentComp.height/2]);
+            
+            light.castsShadows.setValue(1);
+
             //Add a background
-            var backgroundLayer  = currentComp.layers.addSolid([0.26,0.136,0.26], "Background", cs[0]-100, cs[1]-100, cs[2]); 
+            var backgroundLayer  = currentComp.layers.addSolid([0,0,0], "Background", cs[0]*5, cs[1]*5, cs[2]); 
             backgroundLayer.threeDLayer=true;
-            lyricRecorderAE.handleLines(lines, currentComp);
+            lyricRecorderAE.handleLines(lines, currentComp,camera, light);
+         
+            
+              app.executeCommand(app.findMenuCommandId("Convert Audio to Keyframes"));
          },   
-        handleLines:function(lines, currentComp)
+        handleLines:function(lines, currentComp, camera, light)
         {
-             for(var i=0; i<lines.length; i++)
-            // for(var i=0; i<2; i++)
+            // for(var i=0; i<lines.length; i++)
+             for(var i=0; i<2; i++)
             {
                 var line;
                 line=lines[i];
                
-                lyricRecorderLineStyle2 .drawLine(currentComp, line);
+                lyricRecorderLineStyle2 .drawLine(currentComp, line, camera, light);
+                
             }            
          }
      }

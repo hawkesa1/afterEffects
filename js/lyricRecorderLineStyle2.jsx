@@ -2,8 +2,13 @@
 {
         var lyricRecorderLineStyle2=
         {
-            drawLine:function(currentComp, line)
+            drawLine:function(currentComp, line, camera, light)
+           
             {
+                
+                
+                
+                
                 var word;
                 var words="";
                 
@@ -13,7 +18,8 @@
                 
                 var cursorStartPositionX=200;
                 var cursorStartPositionY=200;
-                var spaceWidth=20;
+                var spaceWidth=60;
+                var lineHeight=250;
 
                 var numberWords=line.words.length;
                 var totalWordWidth=0;    
@@ -25,6 +31,10 @@
                 
                 $.writeln (compWidth+" "+compHeight)
                 
+                
+
+camera.property("Position").setValueAtTime(0,[compWidth/2,compHeight/2,-4000])                
+              
                 // First loop
                  for (var i=0; i<line.words.length; i++)
                 {        
@@ -52,7 +62,7 @@
                     if((cursorPositionX + spaceWidth + word.wordWidth)>=(compWidth-cursorStartPositionX))
                     {
                             cursorPositionX=0;
-                            cursorPositionY+=100;
+                            cursorPositionY+=lineHeight;
                     }                    
                     
                     var positionX=cursorStartPositionX+cursorPositionX;
@@ -67,6 +77,9 @@
                     //cursorPositionY+=word.wordHeight;
                         
                 }
+            
+                
+            
             }
         }
 }
