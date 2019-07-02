@@ -3,6 +3,9 @@
     #include "lyricRecorderLineStyle1.jsx" // jshint ignore:line    
     #include "lyricRecorderLineStyle2.jsx" // jshint ignore:line   
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
+    #include ".\\rd_scripts\\rd_GimmeProps.jsx"
+     #include ".\\rd_scripts\\rd_GimmePropPath.jsx"
+     #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
 
     var AUDIO_LOCATION="H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\audio\\audio.mp3";
     var LYRIC_LOCATION="H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\lyricData\\LyricRecorder.js";
@@ -60,14 +63,34 @@
             for ( var i = 0; i < 3; i++ ) {
                 var line;
                 line = lines[i];
-                lyricRecorderLineStyle2.drawLine( currentComp, line, camera, light );
+                lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
             }
-        }
-    
-    }
+        
+                        $.writeln( "1");    
+                        var layers = currentComp.layers;                      
+              
+                        var layer;
 
-    lyricRecorderAE.createComposition(AUDIO_LOCATION, LYRIC_LOCATION);
+                        for (var i = 1; i <= layers.length; i++)
+                        {
+                                layer = layers[i];        
+                                   $.writeln(layer.name);  
+                        }
+                    
+                      // lyricRecorderLineStyleUtilities.printPropertiesOfLayer(currentComp.layer("alexTextLayer_0_0_But"),"alexTextLayer_0_0_But")
+                        //scanPropGroupProperties( app.project.activeItem.selectedLayers[0]);
+                        //rd_GimmeProps(currentComp.layer("alexTextLayer_0_0_But"));
+                         rd_GimmePropsPath(currentComp.layer("alexTextLayer_0_0_But"));
+                       //   rd_GimmePropsInfo(currentComp.layer("alexTextLayer_0_0_But"));
+                        $.writeln( "2"); 
+        }
+    }
+ 
+   lyricRecorderAE.createComposition(AUDIO_LOCATION, LYRIC_LOCATION);
     app.endUndoGroup();
 }
+
+
+
 
  //$.writeln( lines );

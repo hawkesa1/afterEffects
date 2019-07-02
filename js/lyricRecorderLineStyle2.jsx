@@ -2,7 +2,7 @@
 {
     var lyricRecorderLineStyle2 =
         {
-            drawLine: function(currentComp, line, camera, light ) {
+            drawLine: function(currentComp, line, lineNumber, camera, light ) {
 
 
                 var alexPreset = File('C:\\Program Files\\Adobe\\Adobe After Effects CC 2019\\Support Files\\Presets\\Text\\Animate In\\Fade Up Words.ffx')
@@ -37,10 +37,14 @@
               //  camera.property( "Position" ).setValueAtTime( line.startTime / 1000, [-500, compHeight / 2.1, -4000] );
                
 
+
+
+
                 // First loop
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
                     var alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
+                    alexTextLayer.name="alexTextLayer_"+lineNumber+"_"+i+"_"+word.word;
                     alexTextLayer.threeDLayer = true;
                     alexTextLayer.castsShadows.setValue( 1 );
                     lyricRecorderLineStyleUtilities.setFont( alexTextLayer );
@@ -49,8 +53,9 @@
                     totalWordWidth += word.wordWidth;
                     word.afterEffectsTextLayer = alexTextLayer;
                     
-                    alexPreset.length=100000;
+                  
                   alexTextLayer.applyPreset(alexPreset);
+
                 }
                 $.writeln( "Toatal Word Width:" + totalWordWidth );
 
@@ -71,37 +76,28 @@
                     cursorPositionX += word.wordWidth + spaceWidth;
                     //cursorPositionY+=word.wordHeight;
                     
+                   
+
+                   alexTextLayer.property("Text").property("Animators").property("Animator 1").selector("Range Selector 1").property("Start").setValueAtTime(word.startTime / 1000,0);
+                    alexTextLayer.property("Text").property("Animators").property("Animator 1").selector("Range Selector 1").property("Start").setValueAtTime(word.endTime / 1000,0);
+                    // alexTextLayer.Text.Animators.property("Animator 1").selector("Range Selector 1").property("Endo").setValueAtTime(word.endTime / 1000,0);                    
+                    
                    //  $.writeln(  app.project.activeItem.selectedLayers[0].property("ADBE Text Animator").properties[0] )
-                   scanPropGroupProperties(alexTextLayer);
+                
                 camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );      
                     //camera.tansform.PointofInterest.setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
                 }
-            }
-        }
-}
-
-
-function scanPropGroupProperties(propGroup)
-{
-    
- $.writeln( "scanPropGroupProperties:" + propGroup.name );    
-    var i, prop;
-
-    // Iterate over the specified property group's properties
-    for (i=1; i<=propGroup.numProperties; i++)
-    {
-        prop = propGroup.property(i);
-        if (prop.propertyType === PropertyType.PROPERTY)    // Found a property
-        {
             
-             $.writeln( "Prop:" + prop.name  + " " +prop.toString());
-            // Found a property
-            // FYI: layer markers have a prop.matchName = "ADBE Marker"
+              
+            }
+        
+            
+
+   
         }
-        else if ((prop.propertyType === PropertyType.INDEXED_GROUP) || (prop.propertyType === PropertyType.NAMED_GROUP))
-        {
-            // Found an indexed or named group, so check its nested properties
-            scanPropGroupProperties(prop);
-        }
-    }
+ 
+    
 }
+
+
+
