@@ -27,8 +27,8 @@
 
                 var numberLines = 4;
 
-                $.writeln( compWidth + " " + compHeight )
-
+             
+                var wordsObjects=[];
 
 
                 //Make the camera move
@@ -37,13 +37,12 @@
               //  camera.property( "Position" ).setValueAtTime( line.startTime / 1000, [-500, compHeight / 2.1, -4000] );
                
 
-
-
+                var alexTextLayer 
 
                 // First loop
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
-                    var alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
+                    alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
                     alexTextLayer.name="alexTextLayer_"+lineNumber+"_"+i+"_"+word.word;
                     alexTextLayer.threeDLayer = true;
                     alexTextLayer.castsShadows.setValue( 1 );
@@ -53,8 +52,8 @@
                     totalWordWidth += word.wordWidth;
                     word.afterEffectsTextLayer = alexTextLayer;
                     
-                  
-                  alexTextLayer.applyPreset(alexPreset);
+                    alexTextLayer.applyPreset(alexPreset);
+               
 
                 }
                 $.writeln( "Toatal Word Width:" + totalWordWidth );
@@ -75,15 +74,11 @@
                     word.afterEffectsTextLayer.property( "Position" ).setValueAtTime( word.endTime / 1000, [positionX, positionY, cursorPositionZ] );
                     cursorPositionX += word.wordWidth + spaceWidth;
                     //cursorPositionY+=word.wordHeight;
+                      
                     
-                   
-
-                   alexTextLayer.property("Text").property("Animators").property("Animator 1").selector("Range Selector 1").property("Start").setValueAtTime(word.startTime / 1000,0);
-                    alexTextLayer.property("Text").property("Animators").property("Animator 1").selector("Range Selector 1").property("Start").setValueAtTime(word.endTime / 1000,0);
-                    // alexTextLayer.Text.Animators.property("Animator 1").selector("Range Selector 1").property("Endo").setValueAtTime(word.endTime / 1000,0);                    
-                    
-                   //  $.writeln(  app.project.activeItem.selectedLayers[0].property("ADBE Text Animator").properties[0] )
-                
+            
+                  
+           
                 camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );      
                     //camera.tansform.PointofInterest.setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
                 }

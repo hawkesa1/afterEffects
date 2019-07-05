@@ -3,9 +3,13 @@
     #include "lyricRecorderLineStyle1.jsx" // jshint ignore:line    
     #include "lyricRecorderLineStyle2.jsx" // jshint ignore:line   
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
-    #include ".\\rd_scripts\\rd_GimmeProps.jsx"
-     #include ".\\rd_scripts\\rd_GimmePropPath.jsx"
-     #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
+ //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
+  //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
+  #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
+ //  #include ".\\rd_scripts\\rd_KeyMarkers.jsx"
+ 
+//#include ".\\rd_scripts\\rd_ExprTweaker.jsx"
+ 
 
     var AUDIO_LOCATION="H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\audio\\audio.mp3";
     var LYRIC_LOCATION="H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\lyricData\\LyricRecorder.js";
@@ -80,9 +84,44 @@
                       // lyricRecorderLineStyleUtilities.printPropertiesOfLayer(currentComp.layer("alexTextLayer_0_0_But"),"alexTextLayer_0_0_But")
                         //scanPropGroupProperties( app.project.activeItem.selectedLayers[0]);
                         //rd_GimmeProps(currentComp.layer("alexTextLayer_0_0_But"));
-                         rd_GimmePropsPath(currentComp.layer("alexTextLayer_0_0_But"));
+                        // rd_GimmePropsPath(currentComp.layer("alexTextLayer_0_0_But"));
                        //   rd_GimmePropsInfo(currentComp.layer("alexTextLayer_0_0_But"));
-                        $.writeln( "2"); 
+                       
+                   //  var prop=app.project.item(2).layer("alexTextLayer_0_4_voice").property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start").setValueAtTime( (4.10) ,96);
+                       // rd_RemoveKeys(prop);
+                  //  var animationStart= app.project.item(2).layer("alexTextLayer_0_4_voice").property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start");
+                   
+                //   
+                  //  	for (var k=animationStart.numKeys; k>0; k--)
+					//	{
+                    //        animationStart.removeKey(k);
+                         
+                          //  animationStart.keyInTemporalEase(k)[0].speed=200
+                              //$.writeln(animationStart.keyTime(100)); 
+                  //          }
+                    //            animationStart.setValueAtTime( (4.10) ,0);
+                       //       animationStart.setValueAtTime( (4.30) ,100);
+          
+            for ( var i = 0; i < line.words.length; i++ ) {
+                  word = line.words[i];
+                  var animationStart=word.afterEffectsTextLayer.property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start");
+                   
+                for (var k=animationStart.numKeys; k>0; k--)
+						{
+                            animationStart.removeKey(k);
+                         
+                          //  animationStart.keyInTemporalEase(k)[0].speed=200
+                              //$.writeln(animationStart.keyTime(100)); 
+                            }
+                                animationStart.setValueAtTime( (word.startTime/1000) ,0);
+                              animationStart.setValueAtTime( (word.endTime/1000) ,100);
+                
+                
+                }
+                    
+              
+          
+          
         }
     }
  
