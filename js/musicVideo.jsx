@@ -68,20 +68,46 @@
                 var line;
                 line = lines[i];
                 lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
+                
+                for ( var j= 0; j < line.words.length; j++ ) {
+                  word = line.words[j];
+                  var animationStart=word.afterEffectsTextLayer.property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start");
+                    for (var k=animationStart.numKeys; k>0; k--)
+						{
+                            animationStart.removeKey(k);
+                         
+                          //  animationStart.keyInTemporalEase(k)[0].speed=200
+                              //$.writeln(animationStart.keyTime(100)); 
+                            }
+                        
+                         $.writeln("Set " + word.word + " endTime to: " + word.endTime/1000); 
+                                animationStart.setValueAtTime( (word.startTime/1000) ,0);
+                              animationStart.setValueAtTime( (word.endTime/1000) ,100);
+                
+                
+                }                
+                
             }
         
-                        $.writeln( "1");    
-                        var layers = currentComp.layers;                      
-              
-                        var layer;
-
-                        for (var i = 1; i <= layers.length; i++)
-                        {
-                                layer = layers[i];        
-                                   $.writeln(layer.name);  
-                        }
+                
+           
                     
-                      // lyricRecorderLineStyleUtilities.printPropertiesOfLayer(currentComp.layer("alexTextLayer_0_0_But"),"alexTextLayer_0_0_But")
+              
+          
+          
+        }
+    }
+ 
+   lyricRecorderAE.createComposition(AUDIO_LOCATION, LYRIC_LOCATION);
+    app.endUndoGroup();
+}
+
+
+
+
+ //$.writeln( lines );
+
+      // lyricRecorderLineStyleUtilities.printPropertiesOfLayer(currentComp.layer("alexTextLayer_0_0_But"),"alexTextLayer_0_0_But")
                         //scanPropGroupProperties( app.project.activeItem.selectedLayers[0]);
                         //rd_GimmeProps(currentComp.layer("alexTextLayer_0_0_But"));
                         // rd_GimmePropsPath(currentComp.layer("alexTextLayer_0_0_But"));
@@ -101,35 +127,3 @@
                   //          }
                     //            animationStart.setValueAtTime( (4.10) ,0);
                        //       animationStart.setValueAtTime( (4.30) ,100);
-          
-            for ( var i = 0; i < line.words.length; i++ ) {
-                  word = line.words[i];
-                  var animationStart=word.afterEffectsTextLayer.property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start");
-                   
-                for (var k=animationStart.numKeys; k>0; k--)
-						{
-                            animationStart.removeKey(k);
-                         
-                          //  animationStart.keyInTemporalEase(k)[0].speed=200
-                              //$.writeln(animationStart.keyTime(100)); 
-                            }
-                                animationStart.setValueAtTime( (word.startTime/1000) ,0);
-                              animationStart.setValueAtTime( (word.endTime/1000) ,100);
-                
-                
-                }
-                    
-              
-          
-          
-        }
-    }
- 
-   lyricRecorderAE.createComposition(AUDIO_LOCATION, LYRIC_LOCATION);
-    app.endUndoGroup();
-}
-
-
-
-
- //$.writeln( lines );
