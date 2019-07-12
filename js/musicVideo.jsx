@@ -67,35 +67,50 @@
             for ( var i = 0; i < 3; i++ ) {
                 var line;
                 line = lines[i];
-                lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
                 
+          
+               lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
+                
+                
+                //set the timings for Animator 1
                 for ( var j= 0; j < line.words.length; j++ ) {
                   word = line.words[j];
                   var animationStart=word.afterEffectsTextLayer.property("Text").property("Animators").property("Animator 1").property("Selectors").property("Range Selector 1").property("Start");
                     for (var k=animationStart.numKeys; k>0; k--)
 						{
                             animationStart.removeKey(k);
-                         
-                          //  animationStart.keyInTemporalEase(k)[0].speed=200
-                              //$.writeln(animationStart.keyTime(100)); 
                             }
-                        
-                         $.writeln("Set " + word.word + " endTime to: " + word.endTime/1000); 
+
+                        // $.writeln("Set " + word.word + " endTime to: " + word.endTime/1000); 
                                 animationStart.setValueAtTime( (word.startTime/1000) ,0);
                               animationStart.setValueAtTime( (word.endTime/1000) ,100);
-                
-                
                 }                
-                
+            
+            
+            // precompose the comp in to lines
+             
+             var indexesToPrecompose=[];
+             
+             for (var m=currentComp.layers.length - (i+4); m>0; m--)
+             {
+             indexesToPrecompose.push(m);
+             }
+             
+             
+          var lineComp=  currentComp.layers.precompose(indexesToPrecompose, "Line_"+i, true);
+          lineComp.threeDLayer = true;
+         //   lineComp.openInViewer();
             }
+    for(var i=1; i<currentComp.layers.length; i++)
+    {
+        currentComp.layers[i].threeDLayer=true;
+          $.writeln("Comp Layers Name: " +    currentComp.layers[i].threeDLayer);
+    
+    }        
         
-                
-           
-                    
-              
-          
-          
         }
+
+    
     }
  
    lyricRecorderAE.createComposition(AUDIO_LOCATION, LYRIC_LOCATION);
