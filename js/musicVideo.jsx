@@ -5,8 +5,10 @@
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
     //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
-    #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
+   #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
     //  #include ".\\rd_scripts\\rd_KeyMarkers.jsx"
+    
+ //     #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
 
     //#include ".\\rd_scripts\\rd_ExprTweaker.jsx"
 
@@ -47,7 +49,7 @@
             light.castsShadows.setValue( 1 );
 
             //Add a background
-            var backgroundLayer = currentComp.layers.addSolid( [0, 0, 0], "Background", COMP_WIDTH * 5, COMP_HEIGHT * 5, COMP_PIXEL_ASPECT );
+            var backgroundLayer = currentComp.layers.addSolid(lyricRecorderLineStyleUtilities.hexToColor("2BBAE3"), "Background", COMP_WIDTH * 5, COMP_HEIGHT * 5, COMP_PIXEL_ASPECT );
             backgroundLayer.threeDLayer = true;
             lyricRecorderAE.handleLines( lines, currentComp, camera, light );
             app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
@@ -77,8 +79,44 @@
                         animationStart.removeKey( k );
                     }
 
-                    animationStart.setValueAtTime(( word.startTime / 1000 ), 0 );
+                    word.afterEffectsTextLayer.startTime = line.startTime / 1000;
+                    word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
+                    
+                      word.afterEffectsTextLayer1.startTime = line.startTime / 1000;
+                    word.afterEffectsTextLayer1.outPoint = line.endTime / 1000;
+                    
+                    animationStart.setValueAtTime(( line.startTime / 1000 ), 50 );
+                    animationStart.setValueAtTime(( word.startTime / 1000 ), 50);
                     animationStart.setValueAtTime(( word.endTime / 1000 ), 100 );
+                    
+                    
+                    
+                        var  textProperty =  word.afterEffectsTextLayer1.property("Source Text");
+                        var textPropertyValue = textProperty.value;
+                        textPropertyValue.resetCharStyle();
+                        textPropertyValue.fontSize = 200;
+                        textPropertyValue.fillColor = lyricRecorderLineStyleUtilities.hexToColor("1FD930");
+                        textPropertyValue.font = "SavingsBond";
+                        textProperty.setValue(textPropertyValue);          
+                    
+                    
+                       var newMask =  word.afterEffectsTextLayer1.Masks.addProperty("Mask");
+                    //newMask.inverted = true;
+                    var myMaskShape = newMask.property("maskShape");
+                    var myShape = myMaskShape.value;
+                   myShape.vertices = [[0,0],[0,0-word.wordHeight],[0+word.wordWidth,0-word.wordHeight],[0+word.wordWidth,0]];
+                  
+                  var myShape1 = myMaskShape.value;
+                   myShape1.vertices = [[0,0],[0,0-word.wordHeight],[0,0-word.wordHeight],[0,0]];
+                  
+                    myShape.closed = true;
+                  //  myMaskShape.setValue(myShape);               
+                  myMaskShape.setValueAtTime( word.startTime/1000, myShape1);      
+                    myMaskShape.setValueAtTime( word.endTime / 1000, myShape);        
+                  
+  $.writeln( word.word+ " "+ word.startTime );                  
+                    
+                    
                 }
 
                 // precompose the comp in to lines
@@ -96,6 +134,8 @@
                 currentComp.layers[i].threeDLayer = true;
                 $.writeln( "Comp Layers Name: " + currentComp.layers[i].threeDLayer );
             }
+        
+
 
         }
 

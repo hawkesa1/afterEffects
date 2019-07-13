@@ -11,13 +11,13 @@
                 var words = "";
 
                 var cursorPositionX = 0;
-                var cursorPositionY = 0;
+                var cursorPositionY = 200;
                 var cursorPositionZ = -80;
 
                 var cursorStartPositionX = 200;
                 var cursorStartPositionY = 200;
                 var spaceWidth = 60;
-                var lineHeight = 250;
+                var lineHeight = 150;
 
                 var numberWords = line.words.length;
                 var totalWordWidth = 0;
@@ -37,8 +37,8 @@
               //  camera.property( "Position" ).setValueAtTime( line.startTime / 1000, [-500, compHeight / 2.1, -4000] );
                
 
-                var alexTextLayer 
-
+                var alexTextLayer ;
+                var alexTextLayer1; 
                 // First loop
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
@@ -51,9 +51,15 @@
                     word.wordHeight = alexTextLayer.sourceRectAtTime( 0, false ).height;
                     totalWordWidth += word.wordWidth;
                     word.afterEffectsTextLayer = alexTextLayer;
-                    
                     alexTextLayer.applyPreset(alexPreset);
+                    
+                      alexTextLayer1= alexTextLayer.duplicate();
+               word.afterEffectsTextLayer1 = alexTextLayer1;
                
+                 
+               
+                  
+          
 
                 }
                 $.writeln( "Toatal Word Width:" + totalWordWidth );
@@ -62,28 +68,30 @@
 
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
-                    word.afterEffectsTextLayer.startTime = word.startTime / 1000;
-                    word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
+                 //   word.afterEffectsTextLayer.startTime = word.startTime / 1000;
+               //     word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
                     if ( ( cursorPositionX + spaceWidth + word.wordWidth ) >= ( compWidth - cursorStartPositionX ) ) {
                         cursorPositionX = 0;
                         cursorPositionY += lineHeight;
                     }
                     var positionX = cursorStartPositionX + cursorPositionX;
                     var positionY = cursorStartPositionY + cursorPositionY;
-                    word.afterEffectsTextLayer.property( "Position" ).setValueAtTime( word.startTime / 1000, [positionX, positionY, cursorPositionZ] );
-                    word.afterEffectsTextLayer.property( "Position" ).setValueAtTime( word.endTime / 1000, [positionX, positionY, cursorPositionZ] );
+                word.afterEffectsTextLayer.property( "Position" ).setValueAtTime( 0, [positionX, positionY, cursorPositionZ] );
+                 word.afterEffectsTextLayer1.property( "Position" ).setValueAtTime( 0, [positionX, positionY, cursorPositionZ] );
+               // word.afterEffectsTextLayer.property( "Position" ).setValueAtTime( word.endTime / 1000, [positionX, positionY, cursorPositionZ] );
                     cursorPositionX += word.wordWidth + spaceWidth;
                     //cursorPositionY+=word.wordHeight;
                       
                     
-            
+                 
                   
-           
-                camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );      
+                       //var myCommandId = app.findMenuCommandId("Create Masks from Text");
+                       // app.executeCommand(myCommandId);
+                
                     //camera.tansform.PointofInterest.setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
                 }
             
-              
+                 camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
             }
         
             

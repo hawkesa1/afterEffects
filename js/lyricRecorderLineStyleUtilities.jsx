@@ -21,7 +21,7 @@
                         textProperty = textLayer.property("Source Text");
                         textPropertyValue = textProperty.value;
                         textPropertyValue.resetCharStyle();
-                        textPropertyValue.fontSize = 300;
+                        textPropertyValue.fontSize = 200;
                         textPropertyValue.fillColor = [1, 1, 1];
                         textPropertyValue.font = "SavingsBond";
                         textProperty.setValue(textPropertyValue);          
@@ -42,7 +42,6 @@
                     {
                         prop = propGroup.property(i);
                       
-                        
                         if (prop.propertyType === PropertyType.PROPERTY)    // Found a property
                         {
                             $.writeln( "Prop:" + propPath + "." + prop.name);
@@ -69,7 +68,32 @@
                 logFile.open("a");
                 logFile.writeln(output);
             logFile.close();
-            }
+            },
+        
+ hexToColor:function(theHex){
+
+ 
+
+ 
+
+  theHex = parseInt(theHex,16);
+
+ 
+
+  var r = theHex >> 16;
+
+  var g = (theHex & 0x00ff00) >> 8;
+
+  var b = theHex & 0xff;
+
+ 
+
+  return [r/255,g/255,b/255];
+
+ 
+
+}        
+        
         }
   
 }
