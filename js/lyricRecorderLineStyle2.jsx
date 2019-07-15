@@ -2,7 +2,7 @@
 {
     var lyricRecorderLineStyle2 =
         {
-            drawLine: function(currentComp, line, lineNumber, camera, light ) {
+            drawLine: function(currentComp, line, lineNumber, camera ) {
 
 
                 var alexPreset = File('C:\\Program Files\\Adobe\\Adobe After Effects CC 2019\\Support Files\\Presets\\Text\\Animate In\\Fade Up Words.ffx')
@@ -10,14 +10,17 @@
                 var word;
                 var words = "";
 
+                var spaceWidth = 40;
+                var lineHeight = 80;
+
+
                 var cursorPositionX = 0;
-                var cursorPositionY = 200;
+                var cursorPositionY = 0;
                 var cursorPositionZ = -80;
 
-                var cursorStartPositionX = 200;
-                var cursorStartPositionY = 200;
-                var spaceWidth = 60;
-                var lineHeight = 150;
+                var cursorStartPositionX = 50;
+                var cursorStartPositionY = lineHeight+50;
+             
 
                 var numberWords = line.words.length;
                 var totalWordWidth = 0;
@@ -42,7 +45,8 @@
                 // First loop
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
-                    alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
+                   // alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
+                   alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ));
                     alexTextLayer.name="alexTextLayer_"+lineNumber+"_"+i+"_"+word.word;
                     alexTextLayer.threeDLayer = true;
                     alexTextLayer.castsShadows.setValue( 1 );
@@ -51,7 +55,7 @@
                     word.wordHeight = alexTextLayer.sourceRectAtTime( 0, false ).height;
                     totalWordWidth += word.wordWidth;
                     word.afterEffectsTextLayer = alexTextLayer;
-                    alexTextLayer.applyPreset(alexPreset);
+                   // alexTextLayer.applyPreset(alexPreset);
                     
                       alexTextLayer1= alexTextLayer.duplicate();
                word.afterEffectsTextLayer1 = alexTextLayer1;
@@ -91,7 +95,7 @@
                     //camera.tansform.PointofInterest.setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
                 }
             
-                 camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
+                // camera.property( "Position" ).setValueAtTime( line.endTime / 1000, [1500, compHeight / 2.7, -4000] );   
             }
         
             

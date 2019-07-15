@@ -5,7 +5,7 @@
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
     //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
-   #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
+   //#include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
     //  #include ".\\rd_scripts\\rd_KeyMarkers.jsx"
     
  //     #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
@@ -45,13 +45,13 @@
             currentComp.layers.add( mp3File );
 
             var camera = currentComp.layers.addCamera( "alexCamera1", [currentComp.width / 2, currentComp.height / 2] );
-            var light = currentComp.layers.addLight( "alexLight1", [currentComp.width / 2, currentComp.height / 2] );
-            light.castsShadows.setValue( 1 );
+          //  var light = currentComp.layers.addLight( "alexLight1", [currentComp.width / 2, currentComp.height / 2] );
+           // light.castsShadows.setValue( 1 );
 
             //Add a background
-            var backgroundLayer = currentComp.layers.addSolid(lyricRecorderLineStyleUtilities.hexToColor("2BBAE3"), "Background", COMP_WIDTH * 5, COMP_HEIGHT * 5, COMP_PIXEL_ASPECT );
+            var backgroundLayer = currentComp.layers.addSolid(lyricRecorderLineStyleUtilities.hexToColor("2BBAE3"), "Background", COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT );
             backgroundLayer.threeDLayer = true;
-            lyricRecorderAE.handleLines( lines, currentComp, camera, light );
+            lyricRecorderAE.handleLines( lines, currentComp, camera );
             app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
         },
 
@@ -74,10 +74,10 @@
                 //set the timings for Animator 1
                 for ( var j = 0; j < line.words.length; j++ ) {
                     word = line.words[j];
-                    var animationStart = word.afterEffectsTextLayer.property( "Text" ).property( "Animators" ).property( "Animator 1" ).property( "Selectors" ).property( "Range Selector 1" ).property( "Start" );
-                    for ( var k = animationStart.numKeys; k > 0; k-- ) {
-                        animationStart.removeKey( k );
-                    }
+                 //   var animationStart = word.afterEffectsTextLayer.property( "Text" ).property( "Animators" ).property( "Animator 1" ).property( "Selectors" ).property( "Range Selector 1" ).property( "Start" );
+                   // for ( var k = animationStart.numKeys; k > 0; k-- ) {
+                    //    animationStart.removeKey( k );
+                 //   }
 
                     word.afterEffectsTextLayer.startTime = line.startTime / 1000;
                     word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
@@ -85,20 +85,14 @@
                       word.afterEffectsTextLayer1.startTime = line.startTime / 1000;
                     word.afterEffectsTextLayer1.outPoint = line.endTime / 1000;
                     
-                    animationStart.setValueAtTime(( line.startTime / 1000 ), 50 );
-                    animationStart.setValueAtTime(( word.startTime / 1000 ), 50);
-                    animationStart.setValueAtTime(( word.endTime / 1000 ), 100 );
+                  //  animationStart.setValueAtTime(( line.startTime / 1000 ), 50 );
+                  //  animationStart.setValueAtTime(( word.startTime / 1000 ), 50);
+                //    animationStart.setValueAtTime(( word.endTime / 1000 ), 100 );
                     
                     
                     
-                        var  textProperty =  word.afterEffectsTextLayer1.property("Source Text");
-                        var textPropertyValue = textProperty.value;
-                        textPropertyValue.resetCharStyle();
-                        textPropertyValue.fontSize = 200;
-                        textPropertyValue.fillColor = lyricRecorderLineStyleUtilities.hexToColor("1FD930");
-                        textPropertyValue.font = "SavingsBond";
-                        textProperty.setValue(textPropertyValue);          
-                    
+            
+                     lyricRecorderLineStyleUtilities.setFont1( word.afterEffectsTextLayer1 );
                     
                        var newMask =  word.afterEffectsTextLayer1.Masks.addProperty("Mask");
                     //newMask.inverted = true;
@@ -121,7 +115,7 @@
 
                 // precompose the comp in to lines
                 var indexesToPrecompose = [];
-                for ( var m = currentComp.layers.length - ( i + 4 ); m > 0; m-- ) {
+                for ( var m = currentComp.layers.length - ( i + 3 ); m > 0; m-- ) {
                     indexesToPrecompose.push( m );
                 }
                 var lineComp = currentComp.layers.precompose( indexesToPrecompose, "Line_" + i, true );

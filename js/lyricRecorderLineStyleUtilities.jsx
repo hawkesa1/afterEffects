@@ -21,10 +21,29 @@
                         textProperty = textLayer.property("Source Text");
                         textPropertyValue = textProperty.value;
                         textPropertyValue.resetCharStyle();
-                        textPropertyValue.fontSize = 200;
+                        textPropertyValue.fontSize = 100;
                         textPropertyValue.fillColor = [1, 1, 1];
-                        textPropertyValue.font = "SavingsBond";
+                        textPropertyValue.strokeColor = lyricRecorderLineStyleUtilities.hexToColor("000000");
+                        textPropertyValue.strokeWidth =1;
+                        textPropertyValue.fillOverStroke = true;
+                        textPropertyValue.applyStroke = true;                        
+                        textPropertyValue.font = "HighwayGothic";
                         textProperty.setValue(textPropertyValue);          
+            },
+        
+         setFont1:function(textLayer)
+            {
+                        textProperty =  textLayer.property("Source Text");
+                        textPropertyValue = textProperty.value;
+                        textPropertyValue.resetCharStyle();
+                        textPropertyValue.fontSize = 100;
+                        textPropertyValue.fillColor = lyricRecorderLineStyleUtilities.hexToColor("1FD930");
+                        textPropertyValue.strokeColor = lyricRecorderLineStyleUtilities.hexToColor("000000");
+                        textPropertyValue.strokeWidth =1;
+                        textPropertyValue.fillOverStroke = true;
+                        textPropertyValue.applyStroke = true;     
+                        textPropertyValue.font = "HighwayGothic";
+                        textProperty.setValue(textPropertyValue);     
             },
             printPropertiesOfLayer: function (propGroup, propPath)
             {
