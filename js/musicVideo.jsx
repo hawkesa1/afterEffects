@@ -4,7 +4,7 @@
     #include "lyricRecorderLineStyle2.jsx" // jshint ignore:line   
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
-    //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
+   //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
    //#include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
    //  #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
     
@@ -54,7 +54,7 @@
             var backgroundLayer = currentComp.layers.addSolid(lyricRecorderLineStyleUtilities.hexToColor("2BBAE3"), "Background", COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT );
             backgroundLayer.threeDLayer = true;
             
-           //  lyricRecorderAE.drawWaveForm(currentComp, coordinatesArray);
+            lyricRecorderAE.drawWaveForm(currentComp, coordinatesArray);
            
           lyricRecorderAE.handleLines( lines, currentComp, camera );
           
@@ -75,41 +75,59 @@
 //myShape = currentComp.layers.addShape(); 
 
 
+var alexScript='timeo=Math.round(time*10);vertices = coordinates.slice(timeo, (timeo+100)); for(var i=0; i<vertices.length; i++){vertices[i]=[i,vertices[i][1]]}   inTangents = inOuts.slice(timeo, (timeo+100));outTangents =inOuts.slice(timeo, (timeo+100));closed = false;createPath(vertices,inTangents,outTangents,closed);'      ;  
+          
+
+
+
 
  var batman ;
 var batmanPath ;
  var batmanPath_newShape ;
-for (var j=1; j<60; j++)
-{
-    
+
+var myArray='coordinates=[[0,0]';
+var myArray1='inOuts=[[0,0]'
+
+
 var coo;
     var coo2=[];
-    for(var i=j; i<(j+50); i++)
+    for(var i=0; i<(coordinatesArray.length-1000); i++)
     {
             coo=coordinatesArray[i].split(',');
             coo2.push([coo[0],coo[1]]);      
+            myArray+=',['+coo[0]+','+coo[1]+']';
+             myArray1+=',[0,0]';
     }
+myArray+='];';
+myArray1+='];';
 
             batman =  currentComp.layers.addShape(); 
-            batman.name = "Batman"+ j;  
+            batman.name = "Batman";  
             batman.property("ADBE Root Vectors Group").addProperty("ADBE Vector Group");  
             batman.property("ADBE Root Vectors Group").property(1).name = "Group 1";  
             batman.property("ADBE Root Vectors Group").property(1).property(2).addProperty("ADBE Vector Shape - Group");  
             batman.property("ADBE Root Vectors Group").property(1).property(2).property(1).name = "Path 1";  
             batmanPath = batman.property("ADBE Root Vectors Group").property(1).property(2).property(1).property("ADBE Vector Shape");  
             batmanPath_newShape = new Shape();  
-            batmanPath_newShape.closed = true;
+            
+            batmanPath_newShape.closed = false;
 
             batmanPath_newShape.vertices = coo2;
               batmanPath_newShape.inTangents=[[0,0]];
                 batmanPath_newShape.outTangents=[[0,0]];
             batmanPath.setValue(batmanPath_newShape);  
+
+
+alexScript=myArray+myArray1+alexScript;            
+batman.property("Contents").property("Group 1").property("Contents").property("Path 1").property("Path").expression=alexScript;     
+          
+
               
-              batman.startTime =coo[0]/100;
-              batman.outPoint = (coo[0]/100)+.1;
+             // batman.startTime =coo[0]/100;
+           //   batman.outPoint = (coo[0]/100)+.1;
 
        
-    }
+    
  },
     
 
@@ -164,7 +182,7 @@ var coo;
 
                 // precompose the comp in to lines
                 var indexesToPrecompose = [];
-                for ( var m = currentComp.layers.length - ( i + 3 ); m > 0; m-- ) {
+                for ( var m = currentComp.layers.length - ( i + 4 ); m > 0; m-- ) {
                     indexesToPrecompose.push( m );
                 }
                 var lineComp = currentComp.layers.precompose( indexesToPrecompose, "Line_" + i, true );
