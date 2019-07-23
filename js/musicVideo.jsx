@@ -6,9 +6,9 @@
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
     //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
    //#include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
-    //  #include ".\\rd_scripts\\rd_KeyMarkers.jsx"
+   //  #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
     
- //     #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
+ // #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
 
     //#include ".\\rd_scripts\\rd_ExprTweaker.jsx"
 
@@ -30,7 +30,9 @@
         createComposition: function( audioFileLocation, lyricsFileLocation ) {
             var lyricJsonObject = lyricRecorderAE.readLyricDataFromFile( lyricsFileLocation );
             var lines = lyricJsonObject.lyricRecorderSynchronisedLyrics;
-
+            var coordinatesString=lyricJsonObject.coordinates;
+            var coordinatesArray=coordinatesString.split('|');
+             
             // Creating a Project
             var currentProject = app.newProject();
 
@@ -51,7 +53,12 @@
             //Add a background
             var backgroundLayer = currentComp.layers.addSolid(lyricRecorderLineStyleUtilities.hexToColor("2BBAE3"), "Background", COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT );
             backgroundLayer.threeDLayer = true;
-            lyricRecorderAE.handleLines( lines, currentComp, camera );
+            
+           //  lyricRecorderAE.drawWaveForm(currentComp, coordinatesArray);
+           
+          lyricRecorderAE.handleLines( lines, currentComp, camera );
+          
+          
             app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
         },
 
@@ -63,6 +70,48 @@
             scriptFile.close();
             return my_JSON_object;
         },
+      drawWaveForm: function(currentComp,  coordinatesArray ) {
+     
+//myShape = currentComp.layers.addShape(); 
+
+
+
+ var batman ;
+var batmanPath ;
+ var batmanPath_newShape ;
+for (var j=1; j<60; j++)
+{
+    
+var coo;
+    var coo2=[];
+    for(var i=j; i<(j+50); i++)
+    {
+            coo=coordinatesArray[i].split(',');
+            coo2.push([coo[0],coo[1]]);      
+    }
+
+            batman =  currentComp.layers.addShape(); 
+            batman.name = "Batman"+ j;  
+            batman.property("ADBE Root Vectors Group").addProperty("ADBE Vector Group");  
+            batman.property("ADBE Root Vectors Group").property(1).name = "Group 1";  
+            batman.property("ADBE Root Vectors Group").property(1).property(2).addProperty("ADBE Vector Shape - Group");  
+            batman.property("ADBE Root Vectors Group").property(1).property(2).property(1).name = "Path 1";  
+            batmanPath = batman.property("ADBE Root Vectors Group").property(1).property(2).property(1).property("ADBE Vector Shape");  
+            batmanPath_newShape = new Shape();  
+            batmanPath_newShape.closed = true;
+
+            batmanPath_newShape.vertices = coo2;
+              batmanPath_newShape.inTangents=[[0,0]];
+                batmanPath_newShape.outTangents=[[0,0]];
+            batmanPath.setValue(batmanPath_newShape);  
+              
+              batman.startTime =coo[0]/100;
+              batman.outPoint = (coo[0]/100)+.1;
+
+       
+    }
+ },
+    
 
         handleLines: function( lines, currentComp, camera, light ) {
             // for(var i=0; i<lines.length; i++)
@@ -103,12 +152,12 @@
                   var myShape1 = myMaskShape.value;
                    myShape1.vertices = [[0,0],[0,0-word.wordHeight],[0,0-word.wordHeight],[0,0]];
                   
-                    myShape.closed = true;
+                    myShape.closed = false;
                   //  myMaskShape.setValue(myShape);               
                   myMaskShape.setValueAtTime( word.startTime/1000, myShape1);      
                     myMaskShape.setValueAtTime( word.endTime / 1000, myShape);        
                   
-  $.writeln( word.word+ " "+ word.startTime );                  
+        
                     
                     
                 }
@@ -126,7 +175,7 @@
             // Make all layers 3d
             for ( var i = 1; i < currentComp.layers.length; i++ ) {
                 currentComp.layers[i].threeDLayer = true;
-                $.writeln( "Comp Layers Name: " + currentComp.layers[i].threeDLayer );
+            
             }
         
 
