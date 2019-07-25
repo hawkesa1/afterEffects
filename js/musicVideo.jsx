@@ -15,6 +15,7 @@
 
     var AUDIO_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\audio\\audio.mp3";
     var LYRIC_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\LyricRecorder\\lyricData\\LyricRecorder.js";
+    var EXPRESSION_SCRIPT="H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\js\\expression1.jsx"
 
     var COMP_NAME = "MusicVideo";
     var COMP_WIDTH = 1920;
@@ -75,31 +76,35 @@
 //myShape = currentComp.layers.addShape(); 
 
 
-var alexScript='timeo=Math.round(time*10);vertices = coordinates.slice(timeo, (timeo+100)); for(var i=0; i<vertices.length; i++){vertices[i]=[i,vertices[i][1]]}   inTangents = inOuts.slice(timeo, (timeo+100));outTangents =inOuts.slice(timeo, (timeo+100));closed = false;createPath(vertices,inTangents,outTangents,closed);'      ;  
+//var alexScript='timeo=Math.round(time*10);vertices = coordinates.slice(timeo, (timeo+100)); for(var i=0; i<vertices.length; i++){vertices[i]=[i,vertices[i][1]]}   inTangents = inOuts.slice(timeo, (timeo+100));outTangents =inOuts.slice(timeo, (timeo+100));closed = false;createPath(vertices,inTangents,outTangents,closed);'      ;  
           
+var scriptFile1 = File( EXPRESSION_SCRIPT );
+scriptFile1.open( 'r' );
+var alexScript = scriptFile1.read();
 
 
 
-
- var batman ;
+var batman ;
 var batmanPath ;
- var batmanPath_newShape ;
+var batmanPath_newShape ;
 
-var myArray='coordinates=[[0,0]';
-var myArray1='inOuts=[[0,0]'
+var myArray='var coordinates=[[0]';
+
 
 
 var coo;
     var coo2=[];
-    for(var i=0; i<(coordinatesArray.length-1000); i++)
+    for(var i=0;i<4000; i++)
     {
+        
+//need to use concat        
+        
             coo=coordinatesArray[i].split(',');
             coo2.push([coo[0],coo[1]]);      
-            myArray+=',['+coo[0]+','+coo[1]+']';
-             myArray1+=',[0,0]';
+            myArray+=',['+coo[1]+']';
     }
-myArray+='];';
-myArray1+='];';
+    myArray+='];';
+
 
             batman =  currentComp.layers.addShape(); 
             batman.name = "Batman";  
@@ -118,7 +123,9 @@ myArray1+='];';
             batmanPath.setValue(batmanPath_newShape);  
 
 
-alexScript=myArray+myArray1+alexScript;            
+alexScript=myArray+alexScript;       
+//alexScript=myArray;
+$.writeln( "alexScript:" + alexScript );
 batman.property("Contents").property("Group 1").property("Contents").property("Path 1").property("Path").expression=alexScript;     
           
 

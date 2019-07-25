@@ -1,0 +1,1 @@
+﻿timeo=Math.round(time);
