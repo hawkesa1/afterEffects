@@ -142,7 +142,7 @@
             batman1 = currentComp.layers.addShape();
             batman1.name = "Batman1";
             batman1.property( "ADBE Root Vectors Group" ).addProperty( "ADBE Vector Group" );
-            batman1.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
+            batman1.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 2";
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
@@ -150,22 +150,25 @@
             batmanPath_newShape1 = new Shape();
             batmanPath_newShape1.closed = false;
             batmanPath1.setValue( batmanPath_newShape1 );
-            batman1.property( "Contents" ).property( "Group 1" ).property( "Contents" ).property( "Path 1" ).property( "Path" ).expression = alexScript2;
+            batman1.property( "Contents" ).property( "Group 2" ).property( "Contents" ).property( "Path 1" ).property( "Path" ).expression = alexScript2;
 
 
             batman2 = currentComp.layers.addShape();
             batman2.name = "Batman2";
             batman2.property( "ADBE Root Vectors Group" ).addProperty( "ADBE Vector Group" );
-            batman2.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
+            batman2.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 3";
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
             batmanPath2 = batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape2 = new Shape();
+            batmanPath_newShape2.vertices = [[0,200],[0,-200]];
+            batmanPath_newShape2.inTangents=[[0,0],[0,0]];
+            batmanPath_newShape2.outTangents=[[0,0],[0,0]];
             batmanPath_newShape2.closed = false;
             batmanPath2.setValue( batmanPath_newShape2 );
 
-            createPath(alexVertices,inOuts,inOuts,closed);
+           
 
             // batman.startTime =coo[0]/100;
             //   batman.outPoint = (coo[0]/100)+.1;
@@ -175,7 +178,7 @@
 
         handleLines: function( lines, currentComp, camera, light ) {
             // for(var i=0; i<lines.length; i++)
-            for ( var i = 0; i < 3; i++ ) {
+            for ( var i = 0; i < 7; i++ ) {
                 var line;
                 line = lines[i];
                 lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
@@ -224,7 +227,7 @@
 
                 // precompose the comp in to lines
                 var indexesToPrecompose = [];
-                for ( var m = currentComp.layers.length - ( i + 4 ); m > 0; m-- ) {
+                for ( var m = currentComp.layers.length - ( i + 6); m > 0; m-- ) {
                     indexesToPrecompose.push( m );
                 }
                 var lineComp = currentComp.layers.precompose( indexesToPrecompose, "Line_" + i, true );
