@@ -4,7 +4,7 @@
     #include "lyricRecorderLineStyle2.jsx" // jshint ignore:line   
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
-    //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
+    #include ".\\rd_scripts\\rd_GimmePropPath.jsx"
   //  #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
     //  #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
 
@@ -34,7 +34,7 @@
             var coordinatesString = lyricJsonObject.coordinates;
             var coordinatesArray = coordinatesString.split( '|' );
 
-            // Creating a Project
+            // Creating a Project 
             var currentProject = app.newProject();
 
             var mp3File = currentProject.importFile( new ImportOptions( File( audioFileLocation ) ) );
@@ -53,14 +53,14 @@
 
             //Add a background
             var backgroundLayer = currentComp.layers.addSolid( lyricRecorderLineStyleUtilities.hexToColor( "000000" ), "Background", COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT );
-            backgroundLayer.threeDLayer = true;
+            backgroundLayer.threeDLayer = false;
 
             lyricRecorderAE.drawWaveForm( currentComp, coordinatesArray );
 
             lyricRecorderAE.handleLines( lines, currentComp, camera );
 
 
-            app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
+          //  app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
         },
 
         readLyricDataFromFile: function( lyricsFile ) {
@@ -72,6 +72,11 @@
             return my_JSON_object;
         },
         drawWaveForm: function( currentComp, coordinatesArray ) {
+
+            var waveStrokeColour="FFFFFF";
+            var waveStrokeWidth=4;
+            
+
 
             var scriptFile1 = File( EXPRESSION_SCRIPT );
             scriptFile1.open( 'r' );
@@ -132,8 +137,8 @@
             batman.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
             batman.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
-            batman.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( "14B820" ));
-            batman.content("Group 1").content("Stroke 1").strokeWidth.setValue(6);
+            batman.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( waveStrokeColour));
+            batman.content("Group 1").content("Stroke 1").strokeWidth.setValue(waveStrokeWidth);
             batman.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
             batmanPath = batman.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape = new Shape();
@@ -147,8 +152,8 @@
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
-            batman1.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( "14B820" ));
-            batman1.content("Group 1").content("Stroke 1").strokeWidth.setValue(6);
+            batman1.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( waveStrokeColour ));
+            batman1.content("Group 1").content("Stroke 1").strokeWidth.setValue(waveStrokeWidth);
             batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
             batmanPath1 = batman1.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape1 = new Shape();
@@ -163,17 +168,42 @@
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
-            batman2.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( "14B820" ));
-            batman2.content("Group 1").content("Stroke 1").strokeWidth.setValue(6);
+            batman2.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( waveStrokeColour ));
+            batman2.content("Group 1").content("Stroke 1").strokeWidth.setValue(waveStrokeWidth);
             batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
             batmanPath2 = batman2.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape2 = new Shape();
-            batmanPath_newShape2.vertices = [[-700,-500],[-700,-100]];
+            batmanPath_newShape2.vertices = [[-700,-1000],[-700,1000]];
             batmanPath_newShape2.inTangents=[[0,0],[0,0]];
             batmanPath_newShape2.outTangents=[[0,0],[0,0]];
             batmanPath_newShape2.closed = false;
             batmanPath2.setValue( batmanPath_newShape2 );
 
+
+
+                batman3 = currentComp.layers.addShape();
+            batman3.name = "Batman3";
+            batman3.property( "ADBE Root Vectors Group" ).addProperty( "ADBE Vector Group" );
+            batman3.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
+            batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
+            batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
+            batman3.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( waveStrokeColour ));
+            batman3.content("Group 1").content("Stroke 1").strokeWidth.setValue(waveStrokeWidth);
+            batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Fill" );
+             batman3.content("Group 1").content("Fill 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor("8536CF" ));   
+           
+             
+             batman3.property("Transform").property("Opacity").setValue(20);
+         //      batman6.content("Group 1").content("Fill 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor("8536CF" ));    
+               
+            batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
+            batmanPath3 = batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
+            batmanPath_newShape3 = new Shape();
+            batmanPath_newShape3.vertices = [[-COMP_WIDTH/2,COMP_HEIGHT/2],[-COMP_WIDTH/2,-COMP_HEIGHT/2],[(-COMP_WIDTH/2)+260,-COMP_HEIGHT/2],[(-COMP_WIDTH/2)+260,COMP_HEIGHT/2]];
+            batmanPath_newShape3.inTangents=[[0,0],[0,0],[0,0],[0,0]];
+            batmanPath_newShape3.outTangents=[[0,0],[0,0],[0,0],[0,0]];
+            batmanPath_newShape3.closed = false;
+            batmanPath3.setValue( batmanPath_newShape3 );
            
 
             // batman.startTime =coo[0]/100;
@@ -184,66 +214,53 @@
 
         handleLines: function( lines, currentComp, camera, light ) {
             // for(var i=0; i<lines.length; i++)
-            for ( var i = 0; i < 2; i++ ) {
+            for ( var i = 0; i <2; i++ ) {
                 var line;
                 line = lines[i];
                 lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
 
-                //set the timings for Animator 1
+             
                 for ( var j = 0; j < line.words.length; j++ ) {
                     word = line.words[j];
-                    //   var animationStart = word.afterEffectsTextLayer.property( "Text" ).property( "Animators" ).property( "Animator 1" ).property( "Selectors" ).property( "Range Selector 1" ).property( "Start" );
-                    // for ( var k = animationStart.numKeys; k > 0; k-- ) {
-                    //    animationStart.removeKey( k );
-                    //   }
 
-                    word.afterEffectsTextLayer.startTime = line.startTime / 1000;
-                    word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
-
-                    word.afterEffectsTextLayer1.startTime = line.startTime / 1000;
-                    word.afterEffectsTextLayer1.outPoint = line.endTime / 1000;
-
-                    //  animationStart.setValueAtTime(( line.startTime / 1000 ), 50 );
-                    //  animationStart.setValueAtTime(( word.startTime / 1000 ), 50);
-                    //    animationStart.setValueAtTime(( word.endTime / 1000 ), 100 );
-
-
-
-
-                    lyricRecorderLineStyleUtilities.setFont1( word.afterEffectsTextLayer1 );
-
+                    //word.afterEffectsTextLayer.startTime = line.startTime / 1000;
+                    //word.afterEffectsTextLayer.outPoint = line.endTime / 1000;
+                    //word.afterEffectsTextLayer1.startTime = line.startTime / 1000;
+                    //word.afterEffectsTextLayer1.outPoint = line.endTime / 1000;
+                  
+                  
+                word.afterEffectsTextLayer.startTime = 1000;
+                    word.afterEffectsTextLayer.outPoint = 1000;
+                    word.afterEffectsTextLayer1.startTime = 1000;
+                    word.afterEffectsTextLayer1.outPoint = 1000;                  
+                  
+                  lyricRecorderLineStyleUtilities.setFont1( word.afterEffectsTextLayer1 );
                     var newMask = word.afterEffectsTextLayer1.Masks.addProperty( "Mask" );
                     //newMask.inverted = true;
                     var myMaskShape = newMask.property( "maskShape" );
                     var myShape = myMaskShape.value;
                     myShape.vertices = [[0, 0], [0, 0 - word.wordHeight], [0 + word.wordWidth, 0 - word.wordHeight], [0 + word.wordWidth, 0]];
-
                     var myShape1 = myMaskShape.value;
                     myShape1.vertices = [[0, 0], [0, 0 - word.wordHeight], [0, 0 - word.wordHeight], [0, 0]];
-
                     myShape.closed = false;
                     //  myMaskShape.setValue(myShape);               
                     myMaskShape.setValueAtTime( word.startTime / 1000, myShape1 );
                     myMaskShape.setValueAtTime( word.endTime / 1000, myShape );
-
-
-
-
                 }
 
                 // precompose the comp in to lines
                 var indexesToPrecompose = [];
-                for ( var m = currentComp.layers.length - ( i + 6); m > 0; m-- ) {
+                for ( var m = currentComp.layers.length - ( i + 7); m > 0; m-- ) {
                     indexesToPrecompose.push( m );
                 }
                 var lineComp = currentComp.layers.precompose( indexesToPrecompose, "Line_" + i, true );
-                lineComp.threeDLayer = true;
+            //    lineComp.threeDLayer = true;
                 //   lineComp.openInViewer();
             }
 
             // Make all layers 3d
             for ( var i = 1; i < currentComp.layers.length; i++ ) {
-                currentComp.layers[i].threeDLayer = true;
+                currentComp.layers[i].threeDLayer = false;
 
             }
 

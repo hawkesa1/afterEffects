@@ -1,7 +1,7 @@
 ﻿
-verticalMultiplier=2;
-horizontalMultiplier=5;
-verticalShift=-300;
+verticalMultiplier=1;
+horizontalMultiplier=3; //move 3 pixels every 10th of a second
+verticalShift=400;
 horizontalShift=-700;
 forwardSearch=width/horizontalMultiplier;
 inOuts=[];

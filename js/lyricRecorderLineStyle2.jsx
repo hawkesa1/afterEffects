@@ -44,27 +44,18 @@
                 var alexTextLayer1; 
                 // First loop
 
-var boxesVerticalPosition=300;
+var boxesVerticalPosition=0;
 var boxesHeight=100;
-var timeToAppear=((1920-300)/60); //seconds
-var timeToDisappear=2; //seconds
-var pixelsPerSecond=1920/60; //30
+
 
 for ( var i = 0; i < line.words.length; i++ ) {
-                    
-                    
-                    
-                    
-       
-                    
-                    
-                    
+
                     word = line.words[i];
                    // alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ).toUpperCase() );
                    alexTextLayer = currentComp.layers.addText( lyricRecorderLineStyleUtilities.removePunctuation( word.word ));
                     alexTextLayer.name="alexTextLayer_"+lineNumber+"_"+i+"_"+word.word;
-                    alexTextLayer.threeDLayer = true;
-                    alexTextLayer.castsShadows.setValue( 1 );
+                    //alexTextLayer.threeDLayer = true;
+                    //alexTextLayer.castsShadows.setValue( 1 );
                     lyricRecorderLineStyleUtilities.setFont( alexTextLayer );
                     word.wordWidth = alexTextLayer.sourceRectAtTime( 0, false ).width;
                     word.wordHeight = alexTextLayer.sourceRectAtTime( 0, false ).height;
@@ -75,6 +66,24 @@ for ( var i = 0; i < line.words.length; i++ ) {
                       alexTextLayer1= alexTextLayer.duplicate();
                word.afterEffectsTextLayer1 = alexTextLayer1;
                
+                      alexTextLayer2= alexTextLayer.duplicate();
+               word.afterEffectsTextLayer2 = alexTextLayer2;
+              
+            mySourceText= alexTextLayer2.property("ADBE Text Properties").property("ADBE Text Document");
+            var myTextDoc = mySourceText.value;
+             var myTextDoc1 = mySourceText.value;
+             
+myTextDoc.fillColor =lyricRecorderLineStyleUtilities.hexToColor("FFFFFF");
+myTextDoc1.fillColor =lyricRecorderLineStyleUtilities.hexToColor("91FC03");
+           
+           mySourceText.setValueAtTime(0,myTextDoc);
+                 mySourceText.setValueAtTime(word.startTime/1000,myTextDoc1);
+               
+                        var waveStrokeColour="FFFFFF";
+                                                var waveStrokeFill="87C1E2";
+                                                var waveStrokeFillSelected="1D3FD3";
+            var waveStrokeWidth=0;
+
                  
              
             batman6 = currentComp.layers.addShape();
@@ -83,13 +92,15 @@ for ( var i = 0; i < line.words.length; i++ ) {
             batman6.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
             batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
             batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
-            batman6.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( "14B820" ));
-            
+            batman6.content("Group 1").content("Stroke 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor(waveStrokeColour));
              batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Fill" );
-             batman6.content("Group 1").content("Fill 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor( "FF0000" )); 
-            batman6.content("Group 1").content("Stroke 1").strokeWidth.setValue(6);
-            batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
+             
+             batman6.content("Group 1").content("Fill 1").color.setValueAtTime(0,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFill )); 
+             batman6.content("Group 1").content("Fill 1").color.setValueAtTime((word.startTime/1000)-0.1,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFill )); 
+              batman6.content("Group 1").content("Fill 1").color.setValueAtTime(word.startTime/1000,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFillSelected )); 
            
+           batman6.content("Group 1").content("Stroke 1").strokeWidth.setValue(waveStrokeWidth);
+            batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
            batmanPath6 = batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape6 = new Shape();
             batmanPath_newShape6.vertices = [[100,boxesVerticalPosition],[500,boxesVerticalPosition],[500,boxesVerticalPosition-boxesHeight],[100,boxesVerticalPosition-boxesHeight]];
@@ -107,23 +118,36 @@ for ( var i = 0; i < line.words.length; i++ ) {
 
                 var maxLineHeight = 0;
                 var boxWidth;
-        
+
+var boxesVerticalPosition1=300;
+var wordsVerticalPosition1=285;
+
+
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
 
 
+var expression = "startTime="+word.startTime/1000+";endTime="+word.startTime/1000+";positionX=100; positionY="+boxesVerticalPosition1+";positionX=260-((time-startTime)*300);[positionX,positionY];";  
+var expression1 = "startTime="+word.startTime/1000+";endTime="+word.startTime/1000+";positionX=100; positionY="+wordsVerticalPosition1+";positionX=(260-((time-startTime)*300))+10;[positionX,positionY];";  
 
+if(i!=0 && i%4==0)
+{
+    boxesVerticalPosition1=300;
+    wordsVerticalPosition1=285;
+}
+else
+{
+      boxesVerticalPosition1+=110;
+    wordsVerticalPosition1+=110;
+}
 
-                appearTime=(word.startTime / 1000)-(((1080-210)/5)/100);
-                disappearTime= (word.endTime / 1000) +1.74;
                 
-                    boxWidth= ((word.endTime / 1000)- (word.startTime / 1000))* 5*100;
-               
-                  word.afterEffectsBox.property( "Position" ).setValueAtTime( appearTime, [1820+ (boxWidth), boxesVerticalPosition, cursorPositionZ] );
-                   word.afterEffectsBox.property( "Position" ).setValueAtTime( disappearTime, [-1820+ (210*2), boxesVerticalPosition, cursorPositionZ] );
-                 
-                
-                 
+                    boxWidth= ((word.endTime)- (word.startTime))* 0.3;
+             
+                 word.afterEffectsBox.transform.position.expression = expression;
+                       word.afterEffectsTextLayer2.transform.position.expression = expression1;
+                   word.afterEffectsTextLayer2.moveToBeginning();
+                   
             batmanPath6 =  word.afterEffectsBox.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
             batmanPath_newShape6 = new Shape();
             batmanPath_newShape6.vertices = [[0,boxesVerticalPosition],[boxWidth,boxesVerticalPosition],[boxWidth,boxesVerticalPosition-boxesHeight],[0,boxesVerticalPosition-boxesHeight]];
@@ -167,6 +191,9 @@ for ( var i = 0; i < line.words.length; i++ ) {
  
     
 }
-
+               //   appearTime=(word.startTime / 1000);
+            //    disappearTime= (word.endTime / 1000) ;
+                //  word.afterEffectsBox.property( "Position" ).setValueAtTime( appearTime, [260, boxesVerticalPosition, cursorPositionZ] );
+               //    word.afterEffectsBox.property( "Position" ).setValueAtTime( disappearTime, [0, boxesVerticalPosition, cursorPositionZ] );
 
 
