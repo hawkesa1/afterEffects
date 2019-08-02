@@ -27,7 +27,7 @@
                         textPropertyValue.strokeWidth =1;
                         textPropertyValue.fillOverStroke = true;
                         textPropertyValue.applyStroke = true;                        
-                        textPropertyValue.font = "HighwayGothic";
+                        textPropertyValue.font = "Franklin Gothic Heavy";
                         textProperty.setValue(textPropertyValue);          
             },
         
@@ -42,7 +42,7 @@
                         textPropertyValue.strokeWidth =1;
                         textPropertyValue.fillOverStroke = true;
                         textPropertyValue.applyStroke = true;     
-                        textPropertyValue.font = "HighwayGothic";
+                        textPropertyValue.font = "Franklin Gothic Heavy";
                         textProperty.setValue(textPropertyValue);     
             },
             printPropertiesOfLayer: function (propGroup, propPath)
