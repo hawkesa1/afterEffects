@@ -4,7 +4,7 @@
     #include "lyricRecorderLineStyle2.jsx" // jshint ignore:line   
     #include "lyricRecorderLineStyleUtilities.jsx" // jshint ignore:line  
     //   #include ".\\rd_scripts\\rd_GimmeProps.jsx"
-   #include ".\\rd_scripts\\rd_GimmePropPath.jsx"
+   //#include ".\\rd_scripts\\rd_GimmePropPath.jsx"
   //  #include ".\\rd_scripts\\rd_GimmePropInfo.jsx"
     //  #include ".\\rd_scripts\\rd_ShapesToMasks.jsx"
 
@@ -13,15 +13,15 @@
     //#include ".\\rd_scripts\\rd_ExprTweaker.jsx"
 
 
-    var AUDIO_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\loseDemo\\audio\\audio.mp3";
-    var LYRIC_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\loseDemo\\lyricData\\LyricRecorder.js";
+    var AUDIO_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\graceland\\audio\\audio.mp3";
+    var LYRIC_LOCATION = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\resources\\graceland\\lyricData\\LyricRecorder.js";
     var EXPRESSION_SCRIPT = "H:\\Development\\2018\\AfterEffects\\afterEffects\\afterEffectsProject\\js\\expression1.jsx"
 
     var COMP_NAME = "MusicVideo";
     var COMP_WIDTH = 1920;
     var COMP_HEIGHT = 1080;
     var COMP_PIXEL_ASPECT = 1;
-    var COMP_DURATION = 90; //Test Value
+    var COMP_DURATION = 290; //Test Value
     var COMP_FRAME_RATE = 60;
 
     app.beginUndoGroup( "Create Music Video" );
@@ -237,8 +237,8 @@ shapeLayer.property("Transform").property("Position").expression=alexScript4;
 
 
         handleLines: function( lines, currentComp, camera, light ) {
-           // for(var i=0; i<lines.length; i++){
-            for ( var i = 0; i <12; i++ ) {
+           for(var i=0; i<lines.length; i++){
+           // for ( var i = 0; i <2; i++ ) {
                 var line;
                 line = lines[i];
                 lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
