@@ -34,5 +34,4 @@ for(var i=0; i<alexVertices.length; i++)
     alexVertices[i]=[xPosition+(i*horizontalMultiplier),(alexVertices[i][0]*verticalMultiplier)+verticalShift];
 	inOuts[i]=[0,0];
 }  
-closed = false;
-createPath(alexVertices,inOuts,inOuts,closed);
+createPath(alexVertices,inOuts,inOuts,false);
