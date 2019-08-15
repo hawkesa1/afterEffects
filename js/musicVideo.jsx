@@ -41,8 +41,8 @@
 
             // Creating comp
 
-            //var compDuration=mp3File.duration;
-            var compDuration = COMP_DURATION;
+            var compDuration=mp3File.duration;
+            //var compDuration = COMP_DURATION;
             var currentComp = currentProject.items.addComp( COMP_NAME, COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT, compDuration, COMP_FRAME_RATE );
             currentComp.openInViewer();
             currentComp.layers.add( mp3File );
@@ -55,12 +55,12 @@
             var backgroundLayer = currentComp.layers.addSolid( lyricRecorderLineStyleUtilities.hexToColor( "000000" ), "Background", COMP_WIDTH, COMP_HEIGHT, COMP_PIXEL_ASPECT );
             backgroundLayer.threeDLayer = false;
 
-            lyricRecorderAE.drawWaveForm( currentComp, coordinatesArray );
+          
 
             lyricRecorderAE.handleLines( lines, currentComp, camera );
+ lyricRecorderAE.drawWaveForm( currentComp, coordinatesArray );
 
-
-            app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
+        //    app.executeCommand( app.findMenuCommandId( "Convert Audio to Keyframes" ) );
         },
 
         readLyricDataFromFile: function( lyricsFile ) {
@@ -194,10 +194,10 @@
             batman3.content( "Group 1" ).content( "Stroke 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( "FFFFFF" ) );
             batman3.content( "Group 1" ).content( "Stroke 1" ).strokeWidth.setValue( 0 );
             batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Fill" );
-            batman3.content( "Group 1" ).content( "Fill 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( "FFFFFF" ) );
+            batman3.content( "Group 1" ).content( "Fill 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( "000000" ) );
 
 
-            batman3.property( "Transform" ).property( "Opacity" ).setValue( 20 );
+            batman3.property( "Transform" ).property( "Opacity" ).setValue( 80 );
             //      batman6.content("Group 1").content("Fill 1").color.setValue(lyricRecorderLineStyleUtilities.hexToColor("8536CF" ));    
 
             batman3.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
@@ -237,12 +237,18 @@
 
 
         handleLines: function( lines, currentComp, camera, light ) {
-            //for ( var i = 0; i < lines.length; i++ ) {
-               for ( var i = 0; i <2; i++ ) {
+                 var lastWordOfLastLineEndTime=-2;
+                  var wordPosition=0;
+var returnResults;                  
+                  
+         for ( var i = 0; i < lines.length; i++ ) {
+         //      for ( var i = 0; i <10; i++ ) {
                 var line;
                 line = lines[i];
-                lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, light );
-
+           
+               returnResults= lyricRecorderLineStyle2.drawLine( currentComp, line, i, camera, lastWordOfLastLineEndTime , wordPosition);
+lastWordOfLastLineEndTime=returnResults[0];
+wordPosition=returnResults[1];
 
                 for ( var j = 0; j < line.words.length; j++ ) {
                     word = line.words[j];

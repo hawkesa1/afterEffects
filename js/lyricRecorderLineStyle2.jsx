@@ -2,7 +2,7 @@
 {
     var lyricRecorderLineStyle2 =
         {
-            drawLine: function( currentComp, line, lineNumber, camera ) {
+            drawLine: function( currentComp, line, lineNumber, camera, lastWordOfLastLineEndTime, wordPosition ) {
 
 
                 var word;
@@ -38,7 +38,11 @@
                 var boxesVerticalPosition = 0;
                 var boxesHeight = 100;
 
-
+ 
+  var boxesVerticalPosition1 = 200;
+                    var wordsVerticalPosition1 = 185;
+                   
+                    
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
 
@@ -76,17 +80,9 @@
                     batman6.property( "ADBE Root Vectors Group" ).property( 1 ).name = "Group 1";
                     batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Shape - Group" );
                     batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Stroke" );
-                    batman6.content( "Group 1" ).content( "Stroke 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( waveStrokeColour ) );
+                    batman6.content( "Group 1" ).content( "Stroke 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( "333333" ) );
                     batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).addProperty( "ADBE Vector Graphic - Fill" );
-
-                    batman6.property( "Transform" ).property( "Opacity" ).setValue( 20 );
-
-
-                    batman6.content( "Group 1" ).content( "Fill 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor( waveStrokeFill ) );
-                    //  batman6.content("Group 1").content("Fill 1").color.setValueAtTime(1,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFill )); 
-                    //  batman6.content("Group 1").content("Fill 1").color.setValueAtTime(7.9,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFill )); 
-                    //  batman6.content("Group 1").content("Fill 1").color.setValueAtTime(8,lyricRecorderLineStyleUtilities.hexToColor(waveStrokeFillSelected )); 
-
+                    batman6.content( "Group 1" ).content( "Fill 1" ).color.setValue( lyricRecorderLineStyleUtilities.hexToColor(  "333333"  ) );
                     batman6.content( "Group 1" ).content( "Stroke 1" ).strokeWidth.setValue( waveStrokeWidth );
                     batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).name = "Path 1";
                     batmanPath6 = batman6.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
@@ -97,38 +93,59 @@
                     batmanPath_newShape6.closed = true;
                     batmanPath6.setValue( batmanPath_newShape6 );
 
-
                     word.afterEffectsBox = batman6;
 
 
                 }
-                $.writeln( "Toatal Word Width:" + totalWordWidth );
+             
 
                 var maxLineHeight = 0;
                 var boxWidth;
-
-                var boxesVerticalPosition1 = 200;
-                var wordsVerticalPosition1 = 185;
-              
+  $.writeln( "first word" + line.words[0].word );
+            $.writeln( "line.startTime" + line.startTime );
+             $.writeln( "lwordPosition" + wordPosition );
+             $.writeln( "lastWordOfLastLineEndTime" + lastWordOfLastLineEndTime );
+             
+               if (line.startTime>lastWordOfLastLineEndTime)
+               {
+                   
+                    $.writeln("Resetting Line" );
+                        wordPosition=0;
+                        boxesVerticalPosition1 = 200;
+                        wordsVerticalPosition1 = 185;
+              }
+          else
+          {
+                boxesVerticalPosition1 = 200 + (wordPosition*110);
+                        wordsVerticalPosition1 = 185 + (wordPosition*110);
+              }
+          
                 for ( var i = 0; i < line.words.length; i++ ) {
                     word = line.words[i];
-                   
-             
+                    
+if((word.endTime + ((word.wordWidth+300)/3))>lastWordOfLastLineEndTime)
+{
+                    lastWordOfLastLineEndTime=word.endTime + ((word.wordWidth+300)/3);
+  }             
                     var expression = "startTime=" + word.startTime / 1000 + ";endTime=" + word.startTime / 1000 + ";positionX=100; positionY=" + boxesVerticalPosition1 + ";positionX=260-((time-startTime)*300);[positionX,positionY];";
                     var expression1 = "startTime=" + word.startTime / 1000 + ";endTime=" + word.startTime / 1000 + ";positionX=100; positionY=" + wordsVerticalPosition1 + ";positionX=(260-((time-startTime)*300))+10;[positionX,positionY];";
 
-                    if ( i != 0 && i % 5 == 0 ) {
+                    if ( wordPosition != 0 && wordPosition % 5 == 0 ) {
                         boxesVerticalPosition1 = 200;
                         wordsVerticalPosition1 = 185;
+                        wordPosition=0;
                     }
                     else {
                         boxesVerticalPosition1 += 110;
                         wordsVerticalPosition1 += 110;
+                          wordPosition++;
                     }
+              
 
                     boxWidth = ( ( word.endTime ) - ( word.startTime ) ) * 0.3;
 
                     word.afterEffectsBox.transform.position.expression = expression;
+                     word.afterEffectsBox.moveToBeginning();
                     word.afterEffectsTextLayer2.transform.position.expression = expression1;
                     word.afterEffectsTextLayer2.moveToBeginning();
                     batmanPath6 = word.afterEffectsBox.property( "ADBE Root Vectors Group" ).property( 1 ).property( 2 ).property( 1 ).property( "ADBE Vector Shape" );
@@ -138,9 +155,11 @@
                     batmanPath_newShape6.outTangents = [[0, 0], [0, 0], [0, 0], [0, 0]];
                     batmanPath_newShape6.closed = true;
                     batmanPath6.setValue( batmanPath_newShape6 );
-
-               
+                    
+                  
+                
                 }
+            return [lastWordOfLastLineEndTime, wordPosition];
             }
         }
 }
